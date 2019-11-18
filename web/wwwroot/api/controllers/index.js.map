@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/api/controllers/index.js"],"names":["AppController"],"mappings":";;;;;;;AAAA;;;;;;QAGIA,a,GAAAA,uB","file":"index.js","sourcesContent":["import AppController from './AppController';\r\n\r\nexport{\r\n    AppController\r\n}"]}
