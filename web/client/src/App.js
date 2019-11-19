@@ -6,6 +6,9 @@ import Counter from './components/Counter';
 import FetchData from './components/FetchData';
 import RESTCalls from './components/RESTCalls';
 
+import './styles.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />

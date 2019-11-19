@@ -4,6 +4,7 @@ const setPropertyValue = 'SET_PROPERTY_VALUE';
 const initiateGetType = 'INITIATE_GET';
 const receiveGetType = 'RECEIVE_GET';
 const initiatePostType = 'INITIATE_POST';
+const receivePostType = 'RECEIVE_GET';
 const initialState = { url: '', requestJson: '', responseJson: '' };
 
 export const actionCreators = {
@@ -12,14 +13,50 @@ export const actionCreators = {
   },
 
   initiateGet: (apiUrl, jsonString) => async (dispatch, getState) => {    
-    
+    console.log('url requested', apiUrl); 
+    console.log('requestJson', jsonString); 
     dispatch({ type: initiateGetType, apiUrl, jsonString });
 
     const url = apiUrl;
-    const response = await axios.get(url, {params: { jsonString } }) 
-    const responseJson = await response.json();
+    // const response = await axios.get(url, {params: { jsonString } }) 
+    // const responseJson = await response.json();
+    axios.get(url, { params: jsonString })
+    .then( (response) => {
+      console.log('response.data', response.data);
+      console.log('typeof(response.data)', typeof(response.data));
+      let result = '';
+      if(typeof(response.data) === 'object') {
+        result = JSON.stringify(response.data, null, 4);
+      }
+      else {
+        result = response.data;
+      }
+      dispatch({ type: receiveGetType, apiUrl, responseJson: result });
+    })
+    // dispatch({ type: receiveGetType, apiUrl, responseJson });
+  },
 
-    dispatch({ type: receiveGetType, apiUrl, responseJson });
+  
+  initiatePost: (apiUrl, jsonString) => async (dispatch, getState) => {    
+    console.log('post url requested', apiUrl); 
+    console.log('requestJson', jsonString); 
+    dispatch({ type: initiatePostType, apiUrl, jsonString });
+
+    const url = apiUrl;
+    // let jsonobj = JSON.parse(jsonString);
+    axios.post(url, { payload: jsonString })
+    .then( (response) => {
+      console.log('response.data', response.data);
+      console.log('typeof(response.data)', typeof(response.data));
+      let result = '';
+      if(typeof(response.data) === 'object') {
+        result = JSON.stringify(response.data, null, 4);
+      }
+      else {
+        result = response.data;
+      }
+      dispatch({ type: receivePostType, apiUrl, responseJson: result });
+    })
   }
 };
 
@@ -29,6 +66,7 @@ export const reducer = (state, action) => {
   if(action.type === setPropertyValue) {
     var newState = {...state};
     newState[action.fieldName] = action.fieldValue;
+    console.log('newstate', newState);
     return newState;
   }
 
@@ -52,7 +90,22 @@ export const reducer = (state, action) => {
   }
 
   if (action.type === initiatePostType) {
-    return { ...state, count: state.count - 1 };
+    return {
+      ...state,
+      url: action.apiUrl, 
+      requestJson: action.jsonString,
+      isLoading: true
+    };
+  }
+
+  if (action.type === receivePostType) {
+    return {
+      ...state,
+      url: action.apiUrl, 
+      requestJson: action.jsonString,
+      responseJson: action.responseJson,
+      isLoading: false
+    };
   }
 
   return state;
