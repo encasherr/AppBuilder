@@ -12,9 +12,9 @@ class AppController {
 
     Create = (req, resp) => {
         console.log('req.body', req.body);
-        let appJson = JSON.stringify(req.body.payload);
-        console.log('appname', appJson.app_name);
-        resp.send('success');/*
+        let appJson = req.body.payload;
+        console.log('payload', appJson);
+        console.log('app_name', appJson.app_name);
         generatorRepository.GenerateApp(appJson, (error, templatePath, sandboxPath) => {
             if(error) {
                 console.error(`error while copying template ${templatePath} to sandbox ${sandboxPath}`)
@@ -28,7 +28,7 @@ class AppController {
                             templatePath: templatePath });
 
             }
-        });*/
+        });
     }
 
     Update = (req, resp) => {

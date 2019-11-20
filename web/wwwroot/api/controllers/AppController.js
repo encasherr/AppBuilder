@@ -26,22 +26,21 @@ var AppController = function AppController() {
 
     this.Create = function (req, resp) {
         console.log('req.body', req.body);
-        var appJson = JSON.stringify(req.body.payload);
-        console.log('appname', appJson.app_name);
-        resp.send('success'); /*
-                              generatorRepository.GenerateApp(appJson, (error, templatePath, sandboxPath) => {
-                              if(error) {
-                              console.error(`error while copying template ${templatePath} to sandbox ${sandboxPath}`)
-                              resp.json({ msg: 'Error occurred while generating app',
-                              error: error});
-                              }
-                              else{
-                              console.log(`Template successfully copied at ${sandboxPath}`);  
-                              resp.json({ msg: 'App generated successfully',
-                              sandboxPath: sandboxPath,
-                              templatePath: templatePath });
-                              }
-                              });*/
+        var appJson = req.body.payload;
+        console.log('payload', appJson);
+        console.log('app_name', appJson.app_name);
+        _generatorRepository2.default.GenerateApp(appJson, function (error, templatePath, sandboxPath) {
+            if (error) {
+                console.error('error while copying template ' + templatePath + ' to sandbox ' + sandboxPath);
+                resp.json({ msg: 'Error occurred while generating app',
+                    error: error });
+            } else {
+                console.log('Template successfully copied at ' + sandboxPath);
+                resp.json({ msg: 'App generated successfully',
+                    sandboxPath: sandboxPath,
+                    templatePath: templatePath });
+            }
+        });
     };
 
     this.Update = function (req, resp) {

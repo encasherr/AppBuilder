@@ -43,8 +43,11 @@ export const actionCreators = {
     dispatch({ type: initiatePostType, apiUrl, jsonString });
 
     const url = apiUrl;
-    // let jsonobj = JSON.parse(jsonString);
-    axios.post(url, { payload: jsonString })
+    let jsonobj = JSON.parse(jsonString);
+    // let jsonobj = JSON.parse('{ "app_name": "alok" }');
+    axios.post(url, { 
+      payload: jsonobj
+    })
     .then( (response) => {
       console.log('response.data', response.data);
       console.log('typeof(response.data)', typeof(response.data));
@@ -56,6 +59,10 @@ export const actionCreators = {
         result = response.data;
       }
       dispatch({ type: receivePostType, apiUrl, responseJson: result });
+    })
+    .catch((error) => {
+      let msg = `Error in REST call\n${error}`;
+      dispatch({ type: receivePostType, apiUrl, responseJson: error });
     })
   }
 };
@@ -102,7 +109,6 @@ export const reducer = (state, action) => {
     return {
       ...state,
       url: action.apiUrl, 
-      requestJson: action.jsonString,
       responseJson: action.responseJson,
       isLoading: false
     };
