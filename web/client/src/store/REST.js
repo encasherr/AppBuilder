@@ -4,7 +4,7 @@ const setPropertyValue = 'SET_PROPERTY_VALUE';
 const initiateGetType = 'INITIATE_GET';
 const receiveGetType = 'RECEIVE_GET';
 const initiatePostType = 'INITIATE_POST';
-const receivePostType = 'RECEIVE_GET';
+const receivePostType = 'RECEIVE_POST';
 const initialState = { url: '', requestJson: '', responseJson: '' };
 
 export const actionCreators = {
