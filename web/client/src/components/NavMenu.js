@@ -14,7 +14,7 @@ export default props => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <LinkContainer to={'/'} exact>
+        {/* <LinkContainer to={'/'} exact>
           <NavItem>
             <Glyphicon glyph='home' /> Home
           </NavItem>
@@ -28,7 +28,7 @@ export default props => (
           <NavItem>
             <Glyphicon glyph='th-list' /> Fetch data
           </NavItem>
-        </LinkContainer>
+        </LinkContainer> */}
         <LinkContainer to={'/restcalls'}>
           <NavItem>
             <Glyphicon glyph='th-list' /> REST Calls
