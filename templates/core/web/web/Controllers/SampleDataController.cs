@@ -26,6 +26,12 @@ namespace web.Controllers
             });
         }
 
+        [HttpPost("[action]")]
+        public IEnumerable<string> WeatherForecasts()
+        {
+            return Summaries;
+        }
+
         public class WeatherForecast
         {
             public string DateFormatted { get; set; }

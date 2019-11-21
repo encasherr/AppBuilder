@@ -1,10 +1,11 @@
 import axios from 'axios';
 
+const nodeApiUrl = 'http://localhost:3001/api/rest';
 const setPropertyValue = 'SET_PROPERTY_VALUE';
 const initiateGetType = 'INITIATE_GET';
 const receiveGetType = 'RECEIVE_GET';
 const initiatePostType = 'INITIATE_POST';
-const receivePostType = 'RECEIVE_GET';
+const receivePostType = 'RECEIVE_POST';
 const initialState = { url: '', requestJson: '', responseJson: '' };
 
 export const actionCreators = {
@@ -17,10 +18,14 @@ export const actionCreators = {
     console.log('requestJson', jsonString); 
     dispatch({ type: initiateGetType, apiUrl, jsonString });
 
-    const url = apiUrl;
-    // const response = await axios.get(url, {params: { jsonString } }) 
-    // const responseJson = await response.json();
-    axios.get(url, { params: jsonString })
+    let payload =  {
+      apiUrl: apiUrl,
+      data: jsonString,
+      method: "get"
+    }
+    axios.post(nodeApiUrl,{
+      payload
+    })
     .then( (response) => {
       console.log('response.data', response.data);
       console.log('typeof(response.data)', typeof(response.data));
@@ -33,7 +38,6 @@ export const actionCreators = {
       }
       dispatch({ type: receiveGetType, apiUrl, responseJson: result });
     })
-    // dispatch({ type: receiveGetType, apiUrl, responseJson });
   },
 
   
@@ -42,30 +46,76 @@ export const actionCreators = {
     console.log('requestJson', jsonString); 
     dispatch({ type: initiatePostType, apiUrl, jsonString });
 
+    /*
+{ 
+ "app_name": "sample_4"
+}
+    */
     const url = apiUrl;
-    let jsonobj = JSON.parse(jsonString);
-    // let jsonobj = JSON.parse('{ "app_name": "alok" }');
-    axios.post(url, { 
-      payload: jsonobj
-    })
-    .then( (response) => {
-      console.log('response.data', response.data);
-      console.log('typeof(response.data)', typeof(response.data));
-      let result = '';
-      if(typeof(response.data) === 'object') {
-        result = JSON.stringify(response.data, null, 4);
+    let jsonobj = !jsonString ? {} : JSON.parse(jsonString);
+    
+    if(isHostUrlRequested(apiUrl)) {
+        axios.post(apiUrl, { 
+          payload: jsonobj
+        })
+        .then( (response) => handlePostResponse(response, dispatch, apiUrl)
+        )
+        .catch((error) => {
+          let msg = `Error in REST call\n${error}`;
+          dispatch({ type: receivePostType, apiUrl, responseJson: error });
+        })
+    }
+    else{
+      let payload =  {
+        apiUrl: apiUrl,
+        data: jsonobj,
+        method: "post"
       }
-      else {
-        result = response.data;
-      }
-      dispatch({ type: receivePostType, apiUrl, responseJson: result });
-    })
-    .catch((error) => {
-      let msg = `Error in REST call\n${error}`;
-      dispatch({ type: receivePostType, apiUrl, responseJson: error });
-    })
+      axios.post(nodeApiUrl, { 
+        payload
+      })
+      .then( (response) => handlePostResponse(response, dispatch, apiUrl)
+      )
+      .catch((error) => {
+        let msg = `Error in REST call\n${error}`;
+        dispatch({ type: receivePostType, apiUrl, responseJson: error });
+      })
+    }
+    // // let jsonobj = JSON.parse('{ "app_name": "alok" }');
   }
 };
+
+function handlePostResponse(response, dispatch, apiUrl) {
+    console.log('response.data', response.data);
+    console.log('typeof(response.data)', typeof(response.data));
+    let result = '';
+    if(typeof(response.data) === 'object') {
+      result = JSON.stringify(response.data, null, 4);
+    }
+    else {
+      result = response.data;
+    }
+    dispatch({ type: receivePostType, apiUrl, responseJson: result });
+}
+
+function isHostUrlRequested(requestUrl) {
+  var hostname;
+
+  if (requestUrl.indexOf("//") > -1) {
+      hostname = requestUrl.split('/')[2];
+  }
+  else {
+      hostname = requestUrl.split('/')[0];
+  }
+
+  return nodeApiUrl.indexOf(hostname) > -1;
+  //find & remove port number
+  // hostname = hostname.split(':')[0];
+  //find & remove "?"
+  // hostname = hostname.split('?')[0];
+
+  // return hostname;
+}
 
 export const reducer = (state, action) => {
   state = state || initialState;

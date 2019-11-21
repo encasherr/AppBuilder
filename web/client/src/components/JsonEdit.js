@@ -17,19 +17,28 @@ class JsonEdit extends Component {
     return (
       <div>
         <h1>JSON Editor</h1>
-        {renderJson(this.props)}
+        {this.renderJson(this.props)}
       </div>
     );
   }
-}
 
-function renderJson(props) {
+
+renderJson = (props) => {
   return (
-    <div/>
-  );
+        <div className="form-group col-md-6">
+            <label>JSON</label>
+            <textarea rows="10" value={props.jsonValue} className="form-control" onChange={(e) => this.onJsonValueChange(e)}>
+            </textarea>
+        </div>
+    )
 }
 
+onJsonValueChange = (e) => {
+  console.log('e', e);
+  this.props.SetPropertyValue('jsonValue', e.target.value);
+}
 
+}
 export default connect(
   state => state.jsonBlock,
   dispatch => bindActionCreators(actionCreators, dispatch)

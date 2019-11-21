@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var api = _express2.default.Router();
 
+api.post('/rest', _controllers.RestController.Handle);
 api.get('/apps', _controllers.AppController.Apps);
 // api.get('/apps', (req, resp) => {
 //     console.log('heheh');

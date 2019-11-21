@@ -1,5 +1,7 @@
 import AppController from './AppController';
+import RestController from './RestController';
 
 export{
-    AppController
+    AppController,
+    RestController
 }

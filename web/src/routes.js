@@ -1,10 +1,12 @@
 import express  from 'express';
 import { 
-    AppController
+    AppController,
+    RestController
 } from './api/controllers';
 
 let api = express.Router();
 
+api.post('/rest', RestController.Handle);
 api.get('/apps', AppController.Apps);
 // api.get('/apps', (req, resp) => {
 //     console.log('heheh');
