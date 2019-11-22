@@ -1,0 +1,51 @@
+{
+    "dataSources": [
+        {
+            "name": "clientdata",
+            "fields": [
+                {
+                    "name": "clientIdentifier",
+                    "datatype": "text",
+                    "displayName": "Client Identifier"
+                },
+                {
+                    "name": "lagalEntityName",
+                    "datatype": "text",
+                    "displayName": "Legal Entity Name"
+                },
+                {
+                    "name": "domicile",
+                    "datatype": "text",
+                    "displayName": "Domicile"
+                }
+            ],
+            "data": [
+                {
+                    "clientIdentifier": "JANEGLO",
+                    "legalEntityName": "JANE STREET",
+                    "domicile": "United States"
+                },
+                {
+                    "clientIdentifier": "ISSAR",
+                    "legalEntityName": "ISSAR LTD",
+                    "domicile": "United Kingdom"
+                },
+                {
+                    "clientIdentifier": "BAILLIE",
+                    "legalEntityName": "BAILLENO LTD",
+                    "domicile": "United Kingdom"
+                },
+                {
+                    "clientIdentifier": "ABACOAM",
+                    "legalEntityName": "ABACOAM LTD",
+                    "domicile": "United Kingdom"
+                },
+            ]
+        }
+    ],
+    "workflowtypes": [
+        {
+            "name": ""
+        }
+    ]
+}

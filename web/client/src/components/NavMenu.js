@@ -34,6 +34,21 @@ export default props => (
             <Glyphicon glyph='th-list' /> REST Calls
           </NavItem>
         </LinkContainer>
+        <LinkContainer to={'/jsonedit'}>
+          <NavItem>
+            <Glyphicon glyph='th-list' /> JSON Edit
+          </NavItem>
+        </LinkContainer>
+        <LinkContainer to={'/createdata'}>
+          <NavItem>
+            <Glyphicon glyph='th-list' /> Create Data Source
+          </NavItem>
+        </LinkContainer>
+        <LinkContainer to={'/createentity'}>
+          <NavItem>
+            <Glyphicon glyph='th-list' /> Create Entity
+          </NavItem>
+        </LinkContainer>
       </Nav>
     </Navbar.Collapse>
   </Navbar>
